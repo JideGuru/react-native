@@ -60,10 +60,19 @@ static const std::string componentNameByReactViewName(std::string viewName) {
     return "Text";
   }
 
+  if (viewName == "ImageView") {
+    return "Image";
+  }
+
   // We need this temporarly for testing purposes until we have proper
-  // implementation of core components: <Image>, <ScrollContentView>.
+  // implementation of core components: <ReactPerformanceLoggerFlag>,
+  // <SafeAreaView>, and etc.
   if (
-    viewName == "ImageView" ||
+    viewName == "ReactPerformanceLoggerFlag" ||
+    viewName == "SinglelineTextInputView" ||
+    viewName == "MultilineTextInputView" ||
+    viewName == "RefreshControl" ||
+    viewName == "SafeAreaView" ||
     viewName == "ScrollContentView"
   ) {
     return "View";
@@ -225,7 +234,6 @@ void FabricUIManager::appendChild(const SharedShadowNode &parentShadowNode, cons
     auto childComponentDescriptor = (*componentDescriptorRegistry_)[childShadowNode];
     auto clonedChildShadowNode = childComponentDescriptor->cloneShadowNode(childShadowNode);
     auto nonConstClonedChildShadowNode = std::const_pointer_cast<ShadowNode>(clonedChildShadowNode);
-    nonConstClonedChildShadowNode->shallowSourceNode();
     componentDescriptor->appendChild(parentShadowNode, clonedChildShadowNode);
     return;
   }
